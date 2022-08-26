@@ -1,7 +1,7 @@
 
 # CloudflareNewIp
 
-Update your ip in Cloudflare
+Update your ip in Cloudflare Zone
 
 
 ## Deployment

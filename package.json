@@ -11,8 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "color-in-terminal": "^1.0.5",
     "dotenv": "^16.0.1",
+    "i": "^0.3.7",
     "isip": "^0.0.1",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.2.10",
+    "npm": "^8.18.0"
   }
 }
