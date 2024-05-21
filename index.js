@@ -11,16 +11,22 @@ let last_ip = '';
     const Ip = (await (await fetch('https://api.ipify.org?format=json', { method: 'GET' })).json()).ip;
     UpdateIps(Ip);
     last_ip = Ip;
+    debug('Nouvel ip : ' +Ip)
 
-    setInterval(async () => {
+    setInterval(async function () {
         const NewIp = (await (await fetch('https://api.ipify.org?format=json', { method: 'GET' })).json()).ip;
 
         if (NewIp != last_ip) {
             UpdateIps(NewIp);
             last_ip = NewIp
+            debug('Nouvel ip : ' +NewIp)
+        } else {
+            debug('------------------------------')
+            debug(`${Color.FgGreen}Il n'y a pas eu de changement d'ip !${Color.Reset}`)
         }
-    }, 1000 * 60 * 10);
-    // 10 min
+    }, 1000 * 60 * 1);
+    //             ^
+    // 1 min ------|
 
 })();
 
@@ -35,7 +41,7 @@ async function UpdateIps(NewIp) {
         }
     });
     const data = await response.json();
-    
+
     console.log('------------------------------')
     data.result.forEach(async element => {
         if (maxl < element.name.length) { maxl = element.name.length }
@@ -65,10 +71,17 @@ async function UpdateIps(NewIp) {
 
             if (!data1.success) {
                 FailedList.push(element)
-                console.log(` ${Color.FgCyan}*${Color.Reset}  ${Color.FgMagenta}${nameConsole}${Color.Reset} ${Color.FgBlue} -> ${Color.FgRed} Failed`)
+                debug(` ${Color.FgCyan}*${Color.Reset}  ${Color.FgMagenta}${nameConsole}${Color.Reset} ${Color.FgBlue} -> ${Color.FgRed} Failed${Color.Reset}`)
             } else {
-                console.log(` ${Color.FgCyan}*${Color.Reset}  ${Color.FgMagenta}${nameConsole}${Color.Reset} ${Color.FgBlue} -> ${Color.FgGreen} Ok`)
+                debug(` ${Color.FgCyan}*${Color.Reset}  ${Color.FgMagenta}${nameConsole}${Color.Reset} ${Color.FgBlue} -> ${Color.FgGreen} Ok${Color.Reset}`)
             }
         }
     });
+}
+
+function debug(text) {
+    if (process.env.DEBUG) 
+        console.log(text)
+    else 
+        return
 }
